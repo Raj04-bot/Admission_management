@@ -12,9 +12,11 @@ import lombok.Data;
 @Table(name="students")
 @Data
 
+
 public class Student {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
+	private String name;
 
 }
