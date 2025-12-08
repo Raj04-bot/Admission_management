@@ -1,6 +1,7 @@
 package com.admission.jwt;
 import java.util.Date;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.admission.entity.User;
@@ -44,10 +45,9 @@ public class JwtService {
         return extractAllClaims(token).getExpiration().before(new Date());
     }
 
-    // Validate
-    public boolean validateToken(String token, User user) {
-        final String userName = extractUserName(token);
-        return (userName.equals(user.getEmail()) && !isTokenExpired(token));
+    public boolean validateToken(String token, UserDetails userDetails) {
+        final String username = extractUserName(token);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
     // Internal: parse token

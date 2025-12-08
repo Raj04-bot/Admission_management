@@ -2,12 +2,12 @@ package com.admission.entity;
 
 import java.util.Date;
 
+import com.admission.utils.BaseEntity;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -16,7 +16,7 @@ import lombok.Data;
 @Table(name="students")
 @Data
 
-public class Student {
+public class Student extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long studentId;
