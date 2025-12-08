@@ -16,6 +16,7 @@ import lombok.Data;
 @Table(name ="user")
 @Data
 public class User {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long userId;
