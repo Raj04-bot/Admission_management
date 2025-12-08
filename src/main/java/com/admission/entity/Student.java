@@ -28,9 +28,6 @@ public class Student {
 	private Date dob;
 	private String mobileNo;
 	private String email;
+	private Long userId;
 	
-	 @OneToOne
-	// foreign key in student table
-	    @JoinColumn(name = "userId")   
-	    private User user;
 }

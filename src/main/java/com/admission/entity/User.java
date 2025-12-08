@@ -18,18 +18,15 @@ import lombok.Data;
 public class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long userId;
+	private Long userId;
+	private String userName;
 	private String name;
 	private String mobile;
 	private String email;
 	private String password;
-	//private String role;
-	
-	
-	 @Enumerated(EnumType.STRING)
-	    private Roles role;
-	
+	@Enumerated(EnumType.STRING)
+	private Roles role;
 	@OneToOne(mappedBy = "user")
-    private Student student;
+    private Long objectId;
 
 }
