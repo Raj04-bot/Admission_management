@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name ="t_user")
+@Table(name ="t_mst_user")
 @Data
 public class User extends BaseEntity {
 
