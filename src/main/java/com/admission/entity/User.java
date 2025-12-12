@@ -6,11 +6,11 @@ import com.admission.utils.BaseEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -44,8 +44,9 @@ public class User extends BaseEntity {
     private boolean isLoggedIn = false;
     private int wrongLoginCount = 0;
 
-    @Enumerated(EnumType.STRING)
-    private Roles role;
+    @OneToOne
+    @JoinColumn(name = "roleId")
+    private Role role;
 	
     private Long objectId;
 
