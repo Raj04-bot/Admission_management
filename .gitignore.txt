@@ -1,10 +1,43 @@
+# Maven target directory
 target/
-bin/
+
+# Compiled Java class files
+*.class
+
+# Logs
+logs/
+*.log
+
+# IDE files
 .classpath
 .project
 .settings/
-.metadata/
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.swp
+*.bak
+
+# Ignore Maven wrapper binaries
 mvnw
 mvnw.cmd
-logs/
-*.log
+
+# Optional: ignore Eclipse / IntelliJ project files
+# These are already covered above, but add if needed
+*.ipr
+*.iws
+
+# Ignore application properties file
+application.properties
+
+# Ignore all compiled class files
+*.class
+
+# Ignore Maven/Gradle build directory
+target/

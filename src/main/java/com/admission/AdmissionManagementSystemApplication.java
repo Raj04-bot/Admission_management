@@ -10,11 +10,8 @@ public class AdmissionManagementSystemApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AdmissionManagementSystemApplication.class, args);
+//		System.out.println(new BCryptPasswordEncoder().encode("123456"));
+
 	}
 	
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		 return new BCryptPasswordEncoder(12);
-	}
-
 }

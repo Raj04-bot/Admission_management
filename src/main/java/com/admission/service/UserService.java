@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.admission.entity.User;
 import com.admission.repository.UserRepo;
-import com.admission.utils.CustomUserDetails;
+import com.admission.security.CustomUserDetails;
+import com.admission.utils.Validation;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -19,11 +20,17 @@ public class UserService implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUserName(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+    	Boolean emailValidation = Validation.emailValidation(userName);
+    	User user = emailValidation ? userRepository.findByUserNameOrEmail(null, userName).orElseThrow(() -> new UsernameNotFoundException("User not found")) :
+    									userRepository.findByUserNameOrEmail(userName, null).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+//        User user = userRepository.findByUserNameOrEmail(userName)
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        System.out.println(user);
+//        return new CustomUserDetails(user);
         return new CustomUserDetails(user);
     }
+    
 
     // Optional: validate login credentials manually
     public User validateUser(String username, String password) {
