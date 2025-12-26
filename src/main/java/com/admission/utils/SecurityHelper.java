@@ -3,6 +3,7 @@ package com.admission.utils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import com.admission.entity.User;
+import com.admission.security.CustomUserDetails;
 
 public class SecurityHelper {
 
@@ -18,4 +19,5 @@ public class SecurityHelper {
         }
         return null;
     }
+    
 }
