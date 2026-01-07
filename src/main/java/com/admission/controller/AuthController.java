@@ -64,8 +64,4 @@ public class AuthController {
 //        return ResponseEntity.ok("Logout successful");
     }
     
-    @PostMapping("/view")
-    public ResponseEntity<?> view() {
-     return ResponseEntity.ok("view");
-    }
 }

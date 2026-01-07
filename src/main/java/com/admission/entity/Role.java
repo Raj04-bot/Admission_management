@@ -13,8 +13,9 @@ import lombok.Data;
 @Table(name="roles")
 @Data
 public class Role extends BaseEntity {
+	
 	@Id
-	 @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long roleId;
 	private String roleCode;
 	private String roleName;
