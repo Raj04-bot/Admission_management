@@ -3,6 +3,9 @@ src/main/resources/application.properties
 src/main/resources/application.yml
 src/main/resources/application-*.properties
 
+# Eclipse / STS workspace files
+.metadata/
+
 
 ### Ignore .gitignore placed in wrong folders ###
 src/main/resources/.gitignore
