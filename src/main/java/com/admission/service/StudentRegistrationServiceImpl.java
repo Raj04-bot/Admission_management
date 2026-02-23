@@ -1,8 +1,12 @@
 package com.admission.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,29 +38,29 @@ public class StudentRegistrationServiceImpl implements StudentRegistrationServic
 
         try {
         	// Email uniqueness
-            studentRegistrationRepository.findByEmail(dto.email())
-						                    .filter(existing -> !Objects.equals(existing.getStudentRegistrationId(), dto.studentRegistrationId()))
+            studentRegistrationRepository.findByEmail(dto.getEmail())
+						                    .filter(existing -> !Objects.equals(existing.getStudentRegistrationId(), dto.getStudentRegistrationId()))
 						                    .ifPresent(e -> {
 						                        throw new BusinessException("Email already registered");
 						                    });
 
             // Mobile uniqueness
-            studentRegistrationRepository.findByMobileNo(dto.mobileNo())
-						                    .filter(existing -> !Objects.equals(existing.getStudentRegistrationId(), dto.studentRegistrationId()))
+            studentRegistrationRepository.findByMobileNo(dto.getMobileNo())
+						                    .filter(existing -> !Objects.equals(existing.getStudentRegistrationId(), dto.getStudentRegistrationId()))
 						                    .ifPresent(e -> {
 						                        throw new BusinessException("Mobile number already registered");
 						                    });
 
-            StudentRegistration student = Optional.ofNullable(dto.studentRegistrationId())
+            StudentRegistration student = Optional.ofNullable(dto.getStudentRegistrationId())
 								                    .flatMap(studentRegistrationRepository::findById)
 								                    .orElseGet(StudentRegistration::new);
 
             BeanUtils.copyProperties(dto, student);
-            student.setDateOfBirth(Validation.parseDateOfBirth(dto.dateOfBirth()));
+            student.setDateOfBirth(Validation.parseDateOfBirth(dto.getDateOfBirth()));
             
             StudentRegistration saved = studentRegistrationRepository.save(student);
             
-            Optional.ofNullable(dto.studentRegistrationId())
+            Optional.ofNullable(dto.getStudentRegistrationId())
 			            .ifPresent(id ->
 			                userCreationUtil.createUserWithRole(
 			                    student.getEmail(),
@@ -73,40 +77,35 @@ public class StudentRegistrationServiceImpl implements StudentRegistrationServic
             return saved;
 
         } catch (BusinessException | ResourceNotFoundException ex) {
-            log.warn("Validation error while saving student: {}", ex.getMessage());
+            log.warn("Exception Occurred at saveOrUpdate on StudentRegistrationServiceImpl: {}", ex.getMessage());
             throw ex;
         } catch (Exception ex) {
-            log.error("Unexpected error while saving student", ex);
+            log.error("Exception Occurred at saveOrUpdate on StudentRegistrationServiceImpl: {}", ex);
             throw new ApplicationException("Unable to save student details");
         }
     }
 
-//    public List<StudentRegistration> getAll() {
-//        return repository.findAll();
-//    }
-//
-//    public StudentRegistration getById(Long id) {
-//        return repository.findById(id)
-//                .orElseThrow(() -> new NoSuchElementException("Student not found"));
-//    }
-//
-//    public StudentRegistration update(Long id, StudentRegistrationDto dto) {
-//
-//        StudentRegistration student = getById(id);
-//
-//        student.setProgram(dto.program());
-//        student.setFirstName(dto.firstName());
-//        student.setMiddleName(dto.middleName());
-//        student.setLastName(dto.lastName());
-//        student.setMobileNo(dto.mobileNo());
-//        student.setEmail(dto.email());
-//        student.setDateOfBirth(dto.dateOfBirth());
-//
-//        return repository.save(student);
-//    }
-//
-//    public void delete(Long id) {
-//        repository.deleteById(id);
-//    }
+	@Override
+    public List<StudentRegistrationDto> getAllStudentData(Boolean isActive) {
+    	List<StudentRegistration> students = new ArrayList<>();
+    	List<StudentRegistrationDto> studentsDto = new ArrayList<>();
+    	try {
+    		students = isActive ? studentRegistrationRepository.findAllByIsActive(isActive) :studentRegistrationRepository.findAll();
+    		
+    		studentsDto = students.stream()
+				    		        .map(student -> {
+				    		            StudentRegistrationDto dto = new StudentRegistrationDto();
+				    		            BeanUtils.copyProperties(student, dto);
+				    		            return dto;
+				    		        })
+				    		        .collect(Collectors.toList());
+		} catch (Exception e) {
+			log.error("Exception Occurred at getAllStudentData on StudentRegistrationServiceImpl: {}", isActive, e);
+	        throw new ServiceException("Unable to fetch student data. Please try again later.");
+		}
+        return studentsDto;
+    }
+
+
 
 }

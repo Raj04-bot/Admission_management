@@ -4,22 +4,28 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import lombok.Data;
 
-public record StudentRegistrationDto(
+@Data
+public class StudentRegistrationDto{
 		
-		Long studentRegistrationId,
-		@NotBlank String program,
-	    @NotBlank String firstName,
-	    String middleName,
-	    @NotBlank String lastName,
+		Long studentRegistrationId;
+		
+		@NotBlank String program;
+		
+	    @NotBlank String firstName;
+	    
+	    String middleName;
+	    
+	    @NotBlank String lastName;
 
 	    @Pattern(regexp = "^[6-9]\\d{9}$",message = "Invalid mobile number")
-	    String mobileNo,
+	    String mobileNo;
 
 	    @Email(message = "Invalid email")
-	    String email,
+	    String email;
 
 
-	    @NotNull String dateOfBirth
+	    @NotNull String dateOfBirth;
 	    
-		) {}
+		}

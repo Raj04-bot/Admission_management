@@ -22,7 +22,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/students")
+@RequestMapping("/api/student")
 @RequiredArgsConstructor
 public class StudentRegistrationController {
 
@@ -33,15 +33,15 @@ public class StudentRegistrationController {
 
         StudentRegistration student = studentRegistrationService.saveOrUpdate(dto);
 
-        String message = dto.studentRegistrationId() == null ? "Student registered successfully": "Student updated successfully";
+        String message = dto.getStudentRegistrationId() == null ? "Student registered successfully": "Student updated successfully";
 
         return ResponseEntity.ok(ApiResponse.success(student, message));
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<StudentRegistration>> getAll() {
-//        return ResponseEntity.ok(studentRegistrationService.getAll());
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<List<StudentRegistrationDto>>> getAllStudentData() {
+        return ResponseEntity.ok(ApiResponse.success(studentRegistrationService.getAllStudentData(false), "Student data fetched successfully"));
+    }
 //
 //    @GetMapping("/{id}")
 //    public ResponseEntity<StudentRegistration> getById(@PathVariable Long id) {
